@@ -3,11 +3,8 @@
   "name": "copytabs",
   "version": "1.0",
   "description": "A simple Chrome extension to copy tabs",
-  "permissions": ["tabs", "clipboardWrite", "contextMenus", "notifications"],
+  "permissions": ["tabs", "clipboardWrite", "storage"],
   "action": {
     "default_popup": "popup.html"
-  },
-  "background": {
-    "service_worker": "background.js"
   }
 } 
