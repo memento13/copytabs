@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const copyButton = document.getElementById('copyButton');
   const statusDiv = document.getElementById('status');
+  const copySelectedButton = document.getElementById('copySelectedButton');
 
   copyButton.addEventListener('click', async function() {
     try {
@@ -22,6 +23,24 @@ document.addEventListener('DOMContentLoaded', function() {
       statusDiv.style.display = 'block';
     } catch (error) {
       // 에러 메시지 표시
+      statusDiv.textContent = 'Error: ' + error.message;
+      statusDiv.className = 'error';
+      statusDiv.style.display = 'block';
+    }
+  });
+
+  copySelectedButton.addEventListener('click', async function() {
+    try {
+      // 현재 창의 모든 탭을 가져옵니다
+      const tabs = await chrome.tabs.query({ currentWindow: true });
+      const selectedTabs = tabs.filter(t => t.highlighted);
+      const uniqueUrls = [...new Set(selectedTabs.map(t => t.url))];
+      const urls = uniqueUrls.join('\n');
+      await navigator.clipboard.writeText(urls);
+      statusDiv.textContent = `Successfully copied ${uniqueUrls.length} unique tab URLs to clipboard!`;
+      statusDiv.className = 'success';
+      statusDiv.style.display = 'block';
+    } catch (error) {
       statusDiv.textContent = 'Error: ' + error.message;
       statusDiv.className = 'error';
       statusDiv.style.display = 'block';
