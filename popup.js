@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const copyButton = document.getElementById('copyButton');
   const statusDiv = document.getElementById('status');
   const copySelectedButton = document.getElementById('copySelectedButton');
+  const copyAllWindowsButton = document.getElementById('copyAllWindowsButton');
   const sortSwitch = document.getElementById('sortSwitch');
 
   // 저장된 정렬 설정을 로드
@@ -61,6 +62,31 @@ document.addEventListener('DOMContentLoaded', async function() {
       const urls = uniqueUrls.join('\n');
       await navigator.clipboard.writeText(urls);
       statusDiv.textContent = `Successfully copied ${uniqueUrls.length} unique tab URLs to clipboard!`;
+      statusDiv.className = 'success';
+      statusDiv.style.display = 'block';
+    } catch (error) {
+      statusDiv.textContent = 'Error: ' + error.message;
+      statusDiv.className = 'error';
+      statusDiv.style.display = 'block';
+    }
+  });
+
+  copyAllWindowsButton.addEventListener('click', async function() {
+    try {
+      // 모든 창의 모든 탭을 가져옵니다
+      const tabs = await chrome.tabs.query({});
+      // index 순서대로 정렬
+      tabs.sort((a, b) => a.index - b.index);
+      
+      // URL 배열을 만들고, 정렬 스위치가 켜져있을 경우에만 알파벳 정렬합니다
+      let uniqueUrls = [...new Set(tabs.map(tab => tab.url))];
+      if (sortSwitch.checked) {
+        uniqueUrls = uniqueUrls.sort();
+      }
+      
+      const urls = uniqueUrls.join('\n');
+      await navigator.clipboard.writeText(urls);
+      statusDiv.textContent = `Successfully copied ${uniqueUrls.length} unique tab URLs from all windows to clipboard!`;
       statusDiv.className = 'success';
       statusDiv.style.display = 'block';
     } catch (error) {
