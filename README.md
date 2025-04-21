@@ -19,7 +19,10 @@
 4. "압축해제된 확장 프로그램을 로드합니다"를 클릭하고 확장 프로그램 디렉토리를 선택하세요
 
 ## 사용법
+### Chrome Web Store
+https://chromewebstore.google.com/detail/hgjinpdejcihlmiibklehdammbfchaek?utm_source=item-share-cb
 
+### 직접 설치
 1. Chrome 툴바에서 확장 프로그램 아이콘을 클릭합니다
 2. 다음 옵션 중 하나를 선택합니다:
    - "Copy Current Tabs": 현재 창의 모든 탭을 복사합니다
